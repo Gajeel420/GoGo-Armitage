@@ -123,6 +123,7 @@ name = "armitage-core"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "chrono",
  "clap",
  "petgraph 0.6.5",

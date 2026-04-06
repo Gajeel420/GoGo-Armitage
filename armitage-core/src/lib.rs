@@ -19,7 +19,7 @@ pub use models::{
     SharedSession,
 };
 pub use events::{Event, EventBroker};
-pub use storage::Storage;
+pub use storage::PostgresStorage;
 pub use ingestor::DataIngestor;
 pub use analyzer::DataAnalyzer;
 pub use msf::MsfClient;

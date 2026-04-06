@@ -20,7 +20,7 @@ serde_json = "1.0"
 rmpv = { version = "1.1", features = ["with-serde"] }
 
 # Database
-sqlx = { version = "0.7", features = ["postgres", "runtime-tokio-native-tls", "macros"] }
+sqlx = { version = "0.7", features = ["postgres", "runtime-tokio-native-tls", "macros", "uuid", "chrono"] }
 
 # HTTP/API
 axum = "0.7"

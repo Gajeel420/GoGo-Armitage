@@ -43,7 +43,7 @@ impl MetasploitClient {
     }
 
     /// Sends a raw RPC call to Metasploit
-    async fn call_rpc(&self, method: &str, args: &[&str]) -> Result<Vec<u8>> {
+    async fn call_rpc(&self, _method: &str, _args: &[&str]) -> Result<Vec<u8>> {
         // TODO: Implement actual RPC call
         // 1. Check if authenticated
         // 2. Encode method + args as MsgPack
@@ -142,6 +142,7 @@ impl super::C2Client for MetasploitClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::c2::C2Client;
 
     #[tokio::test]
     async fn test_metasploit_client_creation() {
@@ -165,7 +166,7 @@ mod tests {
             "password".to_string(),
         );
 
-        let result = client.list_hosts().await;
+        let result: Result<Vec<Host>> = client.list_hosts().await;
         assert!(result.is_err());
     }
 }

@@ -123,6 +123,7 @@ impl super::C2Client for SliverClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::c2::C2Client;
 
     #[test]
     fn test_sliver_client_creation() {
@@ -145,7 +146,7 @@ mod tests {
     #[tokio::test]
     async fn test_sliver_disconnect_before_connect() {
         let client = SliverClient::new("127.0.0.1".to_string(), 31337, true);
-        let result = client.list_hosts().await;
+        let result: Result<Vec<Host>> = client.list_hosts().await;
         assert!(result.is_err());
     }
 }

@@ -1,10 +1,7 @@
 //! PostgreSQL storage implementation
 
-use crate::models::*;
 use anyhow::Result;
 use sqlx::{postgres::PgPoolOptions, PgPool};
-use uuid::Uuid;
-use chrono::Utc;
 
 /// PostgreSQL storage backend
 pub struct PostgresStorage {

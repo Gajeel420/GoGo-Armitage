@@ -38,6 +38,17 @@ pub enum Event {
     // Loot events
     LootExtracted(Box<Loot>),
 
+    // Team collaboration events
+    TeamMemberJoined { team_id: Uuid, user_id: Uuid },
+    TeamMemberLeft { team_id: Uuid, user_id: Uuid },
+    WorkspaceCreated { workspace_id: Uuid, team_id: Uuid },
+    WorkspaceUpdated { workspace_id: Uuid },
+    SessionShared { session_id: Uuid, workspace_id: Uuid, shared_by: Uuid },
+
+    // C2 framework events
+    C2Connected { server_id: Uuid, framework: String },
+    C2Disconnected { server_id: Uuid, framework: String },
+
     // System events
     ScanStarted { workspace_id: String },
     ScanCompleted { workspace_id: String },
@@ -62,6 +73,13 @@ impl Event {
             Event::RouteAdded(_) => "route:added",
             Event::RouteRemoved(_) => "route:removed",
             Event::LootExtracted(_) => "loot:extracted",
+            Event::TeamMemberJoined { .. } => "team:member_joined",
+            Event::TeamMemberLeft { .. } => "team:member_left",
+            Event::WorkspaceCreated { .. } => "workspace:created",
+            Event::WorkspaceUpdated { .. } => "workspace:updated",
+            Event::SessionShared { .. } => "session:shared",
+            Event::C2Connected { .. } => "c2:connected",
+            Event::C2Disconnected { .. } => "c2:disconnected",
             Event::ScanStarted { .. } => "scan:started",
             Event::ScanCompleted { .. } => "scan:completed",
             Event::Error(_) => "error",

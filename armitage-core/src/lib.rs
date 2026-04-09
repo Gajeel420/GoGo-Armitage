@@ -20,8 +20,15 @@ pub use models::{
 };
 pub use events::{Event, EventBroker};
 pub use storage::PostgresStorage;
-pub use ingestor::DataIngestor;
-pub use analyzer::DataAnalyzer;
+pub use ingestor::{
+    DataIngestor, IngestorOrchestrator, MetasploitIngestor, MsfIngestorConfig,
+    SliverIngestor, SliverIngestorConfig,
+};
+pub use analyzer::{
+    DataAnalyzer, SessionAnalysis, StreamProcessor,
+    HostEnrichmentProcessor, ServiceCorrelationProcessor,
+    CredentialDeduplicator, SessionRiskAnalyzer, StoragePersistenceProcessor,
+};
 pub use msf::MsfClient;
 pub use c2::{C2Client, MetasploitClient, SliverClient, FrameworkInfo};
 

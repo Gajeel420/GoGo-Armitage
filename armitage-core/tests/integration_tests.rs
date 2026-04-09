@@ -7,7 +7,7 @@ mod integration_tests {
     use armitage_core::{
         EventBroker, DataIngestor, DataAnalyzer, Host, Service, Session, Credential,
         OriginType, PrivateType, SessionType, ServiceProto, ServiceState,
-        HostEnrichmentProcessor, CredentialDeduplicator,
+        HostEnrichmentProcessor, CredentialDeduplicator, StreamProcessor,
     };
     use chrono::Utc;
     use uuid::Uuid;
@@ -112,7 +112,6 @@ mod integration_tests {
         let mut subscriber = broker.subscribe();
 
         let host = fixtures::sample_host();
-        let host_id = host.id;
 
         // Ingest a host
         ingestor.ingest_host(host).await.unwrap();
@@ -171,6 +170,9 @@ mod integration_tests {
         let broker = EventBroker::new(100);
         let ingestor = DataIngestor::new(broker.clone());
 
+        // Subscribe to events to keep the channel alive
+        let _subscriber = broker.subscribe();
+
         // Create processors
         let enricher = HostEnrichmentProcessor::new(broker.clone());
         let deduplicator = CredentialDeduplicator::new();
@@ -199,6 +201,9 @@ mod integration_tests {
         let broker = EventBroker::new(100);
         let ingestor = DataIngestor::new(broker.clone());
         let analyzer = DataAnalyzer::new(broker.clone());
+
+        // Subscribe to events to keep the channel alive
+        let _subscriber = broker.subscribe();
 
         // Create sample data
         let host = fixtures::sample_host();

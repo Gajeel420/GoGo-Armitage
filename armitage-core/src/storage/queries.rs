@@ -52,11 +52,7 @@ impl HostQueries {
 
     /// Retrieves a host by ID
     pub async fn get_by_id(pool: &PgPool, host_id: Uuid) -> Result<Option<Host>> {
-        let row = sqlx::query_as::<_, (
-            Uuid, String, String, Option<String>, Option<String>, Option<String>, Option<String>,
-            Option<String>, Option<String>, Option<String>, Option<String>, Option<String>,
-            Option<String>, Option<String>, chrono::DateTime<chrono::Utc>, chrono::DateTime<chrono::Utc>, chrono::DateTime<chrono::Utc>
-        )>(
+        let row = sqlx::query(
             r#"
             SELECT id, address, ipv4, ipv6, mac_address, hostname, os_name, os_flavor,
                    os_sp, os_lang, arch, purpose, info, comments, last_seen, created_at, updated_at
@@ -67,24 +63,27 @@ impl HostQueries {
         .fetch_optional(pool)
         .await?;
 
-        Ok(row.map(|r| Host {
-            id: r.0,
-            address: r.1,
-            ipv4: r.2,
-            ipv6: r.3,
-            mac_address: r.4,
-            hostname: r.5,
-            os_name: r.6,
-            os_flavor: r.7,
-            os_sp: r.8,
-            os_lang: r.9,
-            arch: r.10,
-            purpose: r.11,
-            info: r.12,
-            comments: r.13,
-            last_seen: r.14,
-            created_at: r.15,
-            updated_at: r.16,
+        Ok(row.map(|r| {
+            use sqlx::Row;
+            Host {
+                id: r.get("id"),
+                address: r.get("address"),
+                ipv4: r.get("ipv4"),
+                ipv6: r.get("ipv6"),
+                mac_address: r.get("mac_address"),
+                hostname: r.get("hostname"),
+                os_name: r.get("os_name"),
+                os_flavor: r.get("os_flavor"),
+                os_sp: r.get("os_sp"),
+                os_lang: r.get("os_lang"),
+                arch: r.get("arch"),
+                purpose: r.get("purpose"),
+                info: r.get("info"),
+                comments: r.get("comments"),
+                last_seen: r.get("last_seen"),
+                created_at: r.get("created_at"),
+                updated_at: r.get("updated_at"),
+            }
         }))
     }
 
